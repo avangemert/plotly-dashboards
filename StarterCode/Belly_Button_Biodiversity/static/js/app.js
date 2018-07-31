@@ -25,11 +25,35 @@ function buildCharts(sample) {
   d3.json(url).then(function(data) {
 
     // @TODO: Build a Bubble Chart using the sample data
-    
+    var x_values = data.otu_ids;
+    var y_values = data.sample_values;
+    var m_size = data.sample_values;
+    var m_colors = data.otu_ids; 
+    var t_values = data.otu_labels;
 
+    var trace1 = {
+      x: x_values,
+      y: y_values,
+      text: t_values,
+      mode: 'markers',
+      marker: {
+        color: m_colors,
+        size: m_size
+      } 
+    };
+  
+    var data = [trace1];
+
+    var layout = {
+      xaxis: { title: "OTU ID"},
+    };
+
+    Plotly.newPlot('bubble', data, layout);
+   
 
     // @TODO: Build a Pie Chart
-      var pie_values = data.sample_values.slice(0,10);
+    d3.json(url).then(function(data) {  
+    var pie_values = data.sample_values.slice(0,10);
       var pie_labels = data.otu_ids.slice(0,10);
       var pie_hover = data.otu_labels.slice(0,10);
 
@@ -43,7 +67,9 @@ function buildCharts(sample) {
       Plotly.newPlot('pie', data);
 
     });
+  });   
 }
+
 
 function init() {
   // Grab a reference to the dropdown select element
